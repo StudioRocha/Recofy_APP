@@ -1,0 +1,92 @@
+/* ========================================
+   Layout Header
+   ======================================== */
+.header {
+  background-color: #24beb9;
+  padding: 12px 24px;
+
+}
+
+.header__inner {
+  position: relative; /* 中央ロゴ配置の基準にする */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 960px;
+  margin: 0 auto;
+  height: 48px; /* 任意。高さを固定する場合 */
+}
+
+.header__logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* ========================================
+   Bottom Navigation Bar（下部固定・横並び）
+   ======================================== */
+.nav-bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #ccc;
+  z-index: 999;
+}
+
+.nav-bottom__menu {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.4rem 0;
+  margin: 0;
+  list-style: none;
+}
+
+.nav-bottom__menu li a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.4rem;
+  color: #333;
+  text-decoration: none;
+}
+
+.nav-label {
+  font-size: 0.65rem;
+  margin-top: 0.2rem;
+  color: #555;
+}
+
+body {
+  background-color: #343434;
+  color: #fff; /* ← 必要なら文字も白に */
+}
+
+
+/* ========================================
+   Layout Main Content
+   ======================================== */
+.main-content {
+  max-width: 960px;           /* 中央コンテンツの最大幅 */
+  margin: 20px auto 80px;     /* 上・下・左右のマージン（下はnav分） */
+  padding: 0 16px;            /* スマホでも余白 */
+  box-sizing: border-box;
+}
+
+
+
+
+/* スマホでのタップしやすさを考慮（推奨サイズ：44px以上） */
+.nav-bottom__menu li a:hover {
+  background-color: #f2f2f2;
+}
+
+
+

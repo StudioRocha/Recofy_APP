@@ -1,0 +1,135 @@
+/* ----------------------------------------
+ 投稿フォーム全体
+---------------------------------------- */
+.post-form {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 30px 30px rgba(0, 0, 0, 0.3);
+  max-width: 500px; /* ← スマホ時の初期値 */
+  margin: 2rem auto;
+  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+  color: #333;
+}
+
+/* ----------------------------------------
+ 各項目のグループ（縦に並べて中央揃え）
+---------------------------------------- */
+.post-form__group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ラベル */
+.post-form__label {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+/* ----------------------------------------
+ 共通入力スタイル（input, select, file, textarea）
+---------------------------------------- */
+.post-form__input,
+.post-form__select,
+.post-form__file,
+.post-form__textarea {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.7rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #f9f9f9;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+/* フォーカス時 */
+.post-form__input:focus,
+.post-form__select:focus,
+.post-form__file:focus,
+.post-form__textarea:focus {
+  border-color: #318fe7;
+  background-color: #fff;
+  outline: none;
+}
+
+/* ----------------------------------------
+ コメント欄専用のスタイル（スマホ）
+---------------------------------------- */
+.post-form__textarea--comment {
+  height: 120px;
+}
+
+/* ----------------------------------------
+ 星評価エリア
+---------------------------------------- */
+.post-form__stars {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.post-form__stars label {
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s;
+}
+
+.post-form__stars input[type="radio"] {
+  display: none;
+}
+
+.post-form__stars input[type="radio"]:checked + label,
+.post-form__stars label:hover {
+  color: #f5b301;
+}
+
+/* ----------------------------------------
+ 送信ボタン
+---------------------------------------- */
+.post-form__submit {
+  background: linear-gradient(135deg, #21b6ca, #1ac9a0);
+  color: white;
+  padding: 0.9rem 4rem;
+  border: none;
+  border-radius: 11px;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: block;
+  margin: 2rem auto 0;
+}
+
+.post-form__submit:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* ----------------------------------------
+ PC画面（768px以上）でフォーム・入力欄を広く
+---------------------------------------- */
+@media (min-width: 768px) {
+  .post-form {
+    max-width: 700px;
+  }
+
+  .post-form__input,
+  .post-form__select,
+  .post-form__file,
+  .post-form__textarea {
+    max-width: 650px;
+  }
+
+  .post-form__textarea--comment {
+    height: 180px;
+  }
+}
