@@ -5,33 +5,28 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
 {
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        // ✅ バリデーション
-        $validated = $request->validate([
-            'category' => 'required|string',
-            'image' => 'nullable|image|max:2048',
-            'rating' => 'required|integer|min:1|max:5',
-            'tags' => 'nullable|string',
-            'comment' => 'nullable|string|max:140',
-        ]);
+        $imagePaths = [];
 
-        // ✅ 画像アップロード処理
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('uploads', 'public');
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('uploads', 'public');
+                $imagePaths[] = $path;
+            }
         }
 
-        // ✅ データベース保存
         Post::create([
-            'category' => $validated['category'],
-            'image_path' => $imagePath,
-            'rating' => $validated['rating'],
-            'tags' => $validated['tags'] ?? null,
-            'comment' => $validated['comment'] ?? null,
+            'title' => $request->input('title'),
+            'category' => $request->input('category'),
+            'image_path' => json_encode($imagePaths),
+            'rating' => $request->input('rating'),
+            'tags' => $request->input('tags'),
+            'comment' => $request->input('comment'),
         ]);
 
         return redirect()->route('home')->with('success', '投稿を保存しました！');

@@ -38,8 +38,8 @@
 .post-form__select,
 .post-form__file,
 .post-form__textarea {
-  width: 100%;
-  max-width: 500px;
+  width: 80%;
+  max-width: 400px;
   padding: 0.7rem 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -115,21 +115,151 @@
 }
 
 /* ----------------------------------------
- PC画面（768px以上）でフォーム・入力欄を広く
+ UP画像サムネイル表示用
 ---------------------------------------- */
-@media (min-width: 768px) {
+/* サムネイル画像の親ボックス */
+.thumb {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #222;
+}
+
+/* サムネイル画像 */
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* サムネイル全体を並べるコンテナ */
+.post-form__preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+
+.remove-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 28px;
+  text-align: center;
+}
+
+
+/* ========================================
+   error message
+   ======================================== */
+
+.post-form__errors {
+  background-color: #ffe8e8;
+  color: #b40000;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+    text-align: center;  /* ← 中央寄せ */
+}
+
+.post-form__errors ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.post-form__errors li::before {
+  content: "⚠ ";
+  margin-right: 0.3em;
+}
+
+/* ========================================
+   succes message
+   ======================================== */
+
+.post-form__success {
+  background-color: #e6ffe6;
+  color: #2d8a4e;
+  border: 1px solid #2d8a4e;
+  padding: 0.75rem;
+  border-radius: 6px;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+
+
+/* ========================================
+   Layout Main Content
+   ======================================== */
+.main-content {
+  max-width: 960px;           /* 中央コンテンツの最大幅 */
+  margin: 20px auto 80px;     /* 上・下・左右のマージン（下はnav分） */
+  padding: 0 16px;            /* スマホでも余白 */
+  box-sizing: border-box;
+}
+
+
+
+
+/* スマホでのタップしやすさを考慮（推奨サイズ：44px以上） */
+.nav-bottom__menu li a:hover {
+  background-color: #f2f2f2;
+}
+
+/* 375px以下（iPhone SE）向けの調整 */
+@media (max-width: 400px) {
   .post-form {
-    max-width: 700px;
+    padding: 1.2rem 1rem;
+    margin: 1rem auto;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
   }
 
   .post-form__input,
   .post-form__select,
   .post-form__file,
   .post-form__textarea {
-    max-width: 650px;
+    width: 100%;
+    max-width: 100%;
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .post-form__submit {
+    width: 100%;
+    padding: 0.8rem 0;
+    font-size: 1rem;
+  }
+
+  .post-form__stars {
+    gap: 0.3rem;
   }
 
   .post-form__textarea--comment {
-    height: 180px;
+    height: 100px;
   }
+
+  .thumb {
+    width: 150px;
+    height: 150px;
+  }
+
+
+
 }
+

@@ -3,7 +3,7 @@
    ======================================== */
 .header {
   background-color: #24beb9;
-  padding: 12px 24px;
+  padding: 1px 4px;
 
 }
 
@@ -14,7 +14,7 @@
   justify-content: space-between;
   max-width: 960px;
   margin: 0 auto;
-  height: 48px; /* 任意。高さを固定する場合 */
+  height: 58px; /* 任意。高さを固定する場合 */
 }
 
 .header__logo {
@@ -35,8 +35,8 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  background: #fff;
-  border-top: 1px solid #ccc;
+  background: #24beb9;
+  /* border-top: 1px solid #ccc; */
   z-index: 999;
 }
 
@@ -49,13 +49,18 @@
   list-style: none;
 }
 
-.nav-bottom__menu li a {
+.nav-bottom__menu li a,
+.nav-bottom__menu li button {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 1.4rem;
   color: #333;
   text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 .nav-label {
@@ -69,24 +74,114 @@ body {
   color: #fff; /* ← 必要なら文字も白に */
 }
 
+/* ========================================
+   Category Tabs（ヘッダー下・横スクロール）
+   ======================================== */
+.category-tabs {
+  display: flex;
+  justify-content: center;         /* 🔥 中央に揃える */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  background-color: #24beb9;
+  padding: 0.5rem 1rem;
+}
+
+.category-tabs__list {
+  display: flex;                   /* inline-flex → flex に変更 */
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.category-tabs__item a {
+  display: inline-block;
+  padding: 0.4rem 1rem; /* 👈 横パディングを狭くしてコンパクトに */
+  font-size: 0.85rem;
+  color: #333;
+  background-color: #eaeaea;
+  text-decoration: none;
+  border-radius: 10px;
+  white-space: nowrap;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.category-tabs__item a:hover {
+  background-color: #318fe7;
+  color: #fff;
+}
 
 /* ========================================
-   Layout Main Content
+   投稿フォーム(モーダル
    ======================================== */
-.main-content {
-  max-width: 960px;           /* 中央コンテンツの最大幅 */
-  margin: 20px auto 80px;     /* 上・下・左右のマージン（下はnav分） */
-  padding: 0 16px;            /* スマホでも余白 */
-  box-sizing: border-box;
+  
+
+/* 閉じるボタン */
+.modal__footer {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-close {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background 0.3s;
+  display: block;
+  position: static !important; /* 💥 ここが超重要 */
+  margin: 0 auto;
+}
+
+.modal-close:hover {
+  background: #c0392b;
+}
+
+/* ✅ 必須：モーダル非表示用 */
+.hidden {
+  display: none !important;
 }
 
 
+@media (min-width: 768px) and (max-width: 1024px) {
 
 
-/* スマホでのタップしやすさを考慮（推奨サイズ：44px以上） */
-.nav-bottom__menu li a:hover {
-  background-color: #f2f2f2;
+
+  /* ✅ ナビゲーションアイコンの拡大 */
+  .nav-bottom__menu li a,
+  .nav-bottom__menu li button {
+    font-size: 2rem;
+  }
+
+  .nav-label {
+    font-size: 0.75rem;
+  }
+
+  /* ✅ モーダル：フォーム横幅とパディング調整 */
+  .modal__content {
+    max-width: 600px;
+    padding: 2rem 1.5rem;
+  }
+
+
 }
 
+@media (max-width: 430px) {
+  .category-tabs {
+    padding: 0.5rem;
+  }
 
+  .category-tabs__list {
+    gap: 0.4rem;
+  }
 
+  .category-tabs__item a {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
