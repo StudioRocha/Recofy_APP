@@ -2,7 +2,7 @@
 
 .index-page__title {
   text-align: center;
-  font-size: 0.7rem;
-  margin-bottom: 1.5rem;
+  font-size: 0.8rem;
+     /* 💡 ここ追加：ヘッダー＋タブの高さ分 */
   color: #ffffff;
 }

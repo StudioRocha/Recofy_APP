@@ -23,3 +23,18 @@ Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 Route::get('/mypage', function () {
     return 'マイページ（仮）';
 })->name('mypage');
+
+// ✅ お気に入り一覧（仮）
+Route::get('/favorites', function () {
+    return 'お気に入り一覧（未実装）';
+})->name('favorites');
+
+// ✅ 通知（仮）
+Route::get('/notifications', function () {
+    return '通知（未実装）';
+})->name('notifications');
+
+// ✅ 記録一覧（仮）
+Route::get('/records', function () {
+    return '記録一覧ページ（未実装）';
+})->name('records');

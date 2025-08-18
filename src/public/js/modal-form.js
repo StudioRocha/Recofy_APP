@@ -1,36 +1,33 @@
 // public/js/modal-form.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    const openBtn = document.getElementById('openModal');
-    const closeBtn = document.getElementById('closeModal');
-    const overlay = document.getElementById('modalOverlay');
+  const modal = document.getElementById('modalOverlay'); // ✅ 新ID
+  const openBtn = document.getElementById('openModal');
+  const headerOpenBtn = document.querySelector('[data-open-modal="true"]');
+  const closeBtn = document.getElementById('closeModal');
 
-    if (!openBtn || !closeBtn || !overlay) {
-        console.warn('⚠ モーダル要素が見つかりません。');
-        return;
-    }
-
+  if (openBtn && modal) {
     openBtn.addEventListener('click', () => {
-        overlay.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
+      modal.classList.remove('hidden');
     });
+  }
 
+  if (headerOpenBtn && modal) {
+    headerOpenBtn.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+    });
+  }
+
+  if (closeBtn && modal) {
     closeBtn.addEventListener('click', () => {
-        overlay.classList.add('hidden');
-        document.body.style.overflow = '';
+      modal.classList.add('hidden');
     });
+  }
 
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) {
-            overlay.classList.add('hidden');
-            document.body.style.overflow = '';
-        }
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            overlay.classList.add('hidden');
-            document.body.style.overflow = '';
-        }
-    });
+  // ✅ オーバーレイ背景クリックでも閉じる（必要なら）
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.add('hidden');
+    }
+  });
 });

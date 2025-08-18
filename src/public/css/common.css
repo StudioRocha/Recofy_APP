@@ -1,187 +1,434 @@
 /* ========================================
    Layout Header
    ======================================== */
-.header {
-  background-color: #24beb9;
-  padding: 1px 4px;
 
+.fixed-header {
+    background-color: #24beb9; /* 元の色でOK */
+    min-height: clamp(56px, 8vh, 72px); /* 画面高さに応じて上下幅を自動調整 */
+    padding-top: 0px; /* iPhoneでの縦詰まり回避 */
 }
 
 .header__inner {
-  position: relative; /* 中央ロゴ配置の基準にする */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 960px;
-  margin: 0 auto;
-  height: 58px; /* 任意。高さを固定する場合 */
+    position: relative; /* 中央ロゴ配置の基準にする */
+    display: grid; /* テーブルライクな3分割 */
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto; /* 内枠を中央寄せ */
+    padding: 0 12px; /* 左右に少し余白 */
+    min-height: 36px; /* iPhoneでの高さ不足を防止 */
 }
 
 .header__logo {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 2rem;
-  font-weight: bold;
-  color: #ffffff;
-  text-decoration: none;
-  white-space: nowrap;
+    position: static;
+    font-size: clamp(2rem, 2.4vw, 2.6rem); /* 連続スケール化：最小段階を廃止 */
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 1.4rem;
 }
 
-/* ========================================
-   Bottom Navigation Bar（下部固定・横並び）
-   ======================================== */
-.nav-bottom {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #24beb9;
-  /* border-top: 1px solid #ccc; */
-  z-index: 999;
+.header__logo a,
+.header__logo-link {
+    color: inherit;
+    text-decoration: none;
 }
 
-.nav-bottom__menu {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0.4rem 0;
-  margin: 0;
-  list-style: none;
+.header__search-input {
+    height: 30px;
+    padding: 0 10px;
+
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    width: clamp(120px, 40vw, 360px); /* 端末幅に応じて縮小（元に戻す） */
+    font-size: 16px; /* iOSの自動ズーム回避 */
 }
 
-.nav-bottom__menu li a,
-.nav-bottom__menu li button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 1.4rem;
-  color: #333;
-  text-decoration: none;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
+.header__search {
+    font-size: 1.4rem;
+    /* ボタン風に最低サイズを確保 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 20px;
+    cursor: pointer;
+}
+/* spanが空でもアイコンを表示 */
+.header__search::before {
+    content: "🔍";
+    font-size: 1.1rem;
+    line-height: 1;
 }
 
-.nav-label {
-  font-size: 0.65rem;
-  margin-top: 0.2rem;
-  color: #555;
+.header__cell {
+    display: flex;
+    align-items: center;
+}
+.header__left {
+    justify-content: flex-start;
+}
+.header__center {
+    justify-content: flex-start;
+    gap: 8px;
+    min-width: 0; /* 中央が小画面で潰れないように */
+}
+.header__right {
+    justify-content: flex-end;
 }
 
-body {
-  background-color: #343434;
-  color: #fff; /* ← 必要なら文字も白に */
+/* 右上の通知/マイページ仮ボタン（ロゴと干渉しないよう絶対配置） */
+.header__actions {
+    display: inline-flex;
+    gap: clamp(8px, 1.6vw, 16px);
+    flex-wrap: nowrap;
+}
+.header__icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4px;
+    height: 34px;
+    border-radius: 9999px;
+    text-decoration: none;
+    font-size: 1.3rem;
+}
+.header__username {
+    display: inline-block;
+    min-width: 0.5rem; /* 将来ユーザー名表示のための占有スペース */
+    white-space: nowrap; /* 折り返し防止 */
+}
+
+.header__record-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: none;
+    background: #ffffff;
+    color: #24beb9;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap; /* 折り返し防止 */
 }
 
 /* ========================================
    Category Tabs（ヘッダー下・横スクロール）
    ======================================== */
 .category-tabs {
-  display: flex;
-  justify-content: center;         /* 🔥 中央に揃える */
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  background-color: #24beb9;
-  padding: 0.5rem 1rem;
+    position: static; /* フロート解除 */
+    z-index: 999; /* 💡 ヘッダーより下、フォームより上 */
+    display: flex;
+    /* justify-content: center;  */
+    background-color: #24beb9;
+    overflow-x: auto; /* 💡 横スクロール有効化 */
+    white-space: nowrap; /* 💡 折り返さず横並びに */
+    scrollbar-width: thin; /* Firefox で横スクロールバーを表示（細め） */
+    -ms-overflow-style: auto; /* 旧Edge/IE：表示 */
+    -webkit-overflow-scrolling: touch; /* iOS スムーズスクロール */
+    margin-top: 0; /* 重なり回避のため負のマージンを撤廃 */
+    border-top: 0;
+    box-shadow: none;
+}
+
+/* WebKit系（Chrome / Safari）横スクロールバーを表示 */
+.category-tabs::-webkit-scrollbar {
+    height: 8px;
+}
+.category-tabs::-webkit-scrollbar-track {
+    background: transparent;
+}
+.category-tabs::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 9999px;
 }
 
 .category-tabs__list {
-  display: flex;                   /* inline-flex → flex に変更 */
-  gap: 0.5rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    display: inline-flex; /* 💡 通常はinlineで中央に、横幅不足時はスクロール */
+    flex-wrap: nowrap; /* 💡 折り返さず横並びにする */ /* 💡 折り返し許可（スマホ対策） */
+    justify-content: center; /* 💡 中央に並べる */
+    gap: clamp(0.6rem, 2vw, 1.6rem); /* 画面幅に応じてボタン間隔を広げる */
+    list-style: none;
+    margin: 0.2rem;
+    padding: 7px;
 }
-
 .category-tabs__item a {
-  display: inline-block;
-  padding: 0.4rem 1rem; /* 👈 横パディングを狭くしてコンパクトに */
-  font-size: 0.85rem;
-  color: #333;
-  background-color: #eaeaea;
-  text-decoration: none;
-  border-radius: 10px;
-  white-space: nowrap;
-  transition: background-color 0.2s, color 0.2s;
+    display: inline-block;
+    /* 画面幅に応じてフォント・余白を自動拡縮 */
+    font-size: clamp(12px, 1.3vw, 16px);
+    padding: clamp(2px, 0.5vw, 6px) clamp(8px, 1.2vw, 12px);
+    color: #333;
+    background-color: #eaeaea;
+    text-decoration: none;
+    border-radius: clamp(6px, 1vw, 10px);
+    white-space: nowrap;
+    text-align: center;
 }
 
 .category-tabs__item a:hover {
-  background-color: #318fe7;
-  color: #fff;
+    background-color: #318fe7;
+    color: #fff;
+}
+
+/* ========================================
+   Bottom Navigation Bar（下部固定・横並び）
+   ======================================== */
+.nav-bottom {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #24beb9;
+    /* border-top: 1px solid #ccc; */
+    z-index: 999;
+}
+
+.nav-bottom__menu {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.4rem 0;
+    margin: 0;
+    list-style: none;
+}
+
+.nav-bottom__menu li a,
+.nav-bottom__menu li button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.4rem;
+    color: #333;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.nav-label {
+    font-size: 0.65rem;
+    margin-top: 0.2rem;
+    color: #555;
+}
+
+body {
+    background-color: #343434;
+    color: #fff; /* ← 必要なら文字も白に */
+}
+
+/* フラッシュメッセージ */
+.flash {
+    max-width: 960px;
+    margin: 10px auto;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+.flash--success {
+    background: #e6ffe6;
+    color: #2d8a4e;
+    border: 1px solid #2d8a4e;
 }
 
 /* ========================================
    投稿フォーム(モーダル
    ======================================== */
-  
-
-/* 閉じるボタン */
-.modal__footer {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: center;
-}
-
-.modal-close {
-  background: #e74c3c;
-  color: white;
-  border: none;
-  padding: 0.5rem 1.2rem;
-  font-size: 1rem;
-  border-radius: 9999px;
-  cursor: pointer;
-  transition: background 0.3s;
-  display: block;
-  position: static !important; /* 💥 ここが超重要 */
-  margin: 0 auto;
-}
-
-.modal-close:hover {
-  background: #c0392b;
-}
 
 /* ✅ 必須：モーダル非表示用 */
 .hidden {
-  display: none !important;
+    display: none !important;
 }
 
+/* ========================================
+  レシポンシブデザイン
+   ======================================== */
+/* common.css 側（共通フォームのレスポンシブ制御） */
+.post-form {
+    width: 100%;
 
-@media (min-width: 768px) and (max-width: 1024px) {
-
-
-
-  /* ✅ ナビゲーションアイコンの拡大 */
-  .nav-bottom__menu li a,
-  .nav-bottom__menu li button {
-    font-size: 2rem;
-  }
-
-  .nav-label {
-    font-size: 0.75rem;
-  }
-
-  /* ✅ モーダル：フォーム横幅とパディング調整 */
-  .modal__content {
-    max-width: 600px;
-    padding: 2rem 1.5rem;
-  }
-
-
+    margin: 1rem auto;
 }
 
-@media (max-width: 430px) {
-  .category-tabs {
-    padding: 0.5rem;
-  }
+/* 📱 タブレット〜PC用：幅が768px以上のとき */
+@media screen and (min-width: 768px) {
+    .header__logo {
+        font-size: 2.4rem; /* ← iPad以上で少し大きめに */
+    }
+}
 
-  .category-tabs__list {
-    gap: 0.4rem;
-  }
+/* スマホサイズ（～600px）では検索入力を隠してアイコンのみ表示（元に戻す） */
+@media screen and (max-width: 600px) {
+    .header__center {
+        gap: 4px;
+    }
+    .header__search-input {
+        display: inline-block;
+        width: clamp(60px, 24vw, 120px);
+        max-width: 100%;
+    }
+}
 
-  .category-tabs__item a {
-    font-size: 0.7rem;
-    padding: 0.3rem 0.6rem;
-  }
+/* カテゴリタブ */
+.category-tabs__item a {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+}
+
+/* ナビゲーションバーのアイコンとラベル */
+.nav-icon {
+    font-size: 1.6rem;
+}
+
+.nav-label {
+    font-size: 1rem;
+}
+
+/* Reco!ボタン */
+.nav-item--reco {
+    font-size: 1.2rem;
+}
+
+/* iPad以上の画面では基準フォントを少し拡大して可読性を上げる */
+@media screen and (min-width: 1024px) {
+    html {
+        font-size: 18px;
+    }
+}
+
+/* ========================================
+   Header responsive scaling (auto resize)
+   ======================================== */
+.header__actions {
+    gap: clamp(8px, 1.6vw, 16px);
+}
+
+.header__icon-btn {
+    width: clamp(32px, 3vw, 48px);
+    height: clamp(32px, 3vw, 48px);
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+}
+
+.header__search::before {
+    font-size: clamp(1rem, 1.5vw, 1.4rem);
+}
+
+.header__search-input {
+    height: clamp(30px, 3.2vw, 42px);
+    padding-inline: clamp(10px, 1.6vw, 16px);
+    border-radius: clamp(8px, 1vw, 12px);
+    width: clamp(120px, 40vw, 520px);
+    font-size: clamp(16px, 1.4vw, 18px);
+}
+
+.header__username {
+    font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+}
+
+/* ========================================
+   Bottom Navigation Bar compact (≈ 2/3 size)
+   ======================================== */
+.nav-bottom {
+    padding: 0; /* バー自体の余白を圧縮 */
+}
+.nav-bottom__menu {
+    padding: 0.1rem 0; /* 高さを下げる */
+}
+.nav-bottom__menu li a,
+.nav-bottom__menu li button {
+    padding: 0; /* 余白リセットで高さを詰める */
+}
+.nav-icon {
+    font-size: 1.05rem; /* 元1.6rem → 約2/3 */
+}
+.nav-label {
+    font-size: 0.7rem; /* 元1rem → 約2/3 */
+    margin-top: 0.1rem; /* ラベル間隔も圧縮 */
+}
+
+/* ========================================
+   Category buttons: responsive scale
+   ======================================== */
+.category-tabs__list {
+    gap: clamp(6px, 1.5vw, 16px);
+}
+/* もっと小さく/大きくしたい場合は、各 clamp(最小, 中間, 最大) の最小/最大を調整 */
+.category-tabs__item a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(12px, 1.4vw, 18px);
+    padding-block: clamp(4px, 0.8vh, 8px);
+    padding-inline: clamp(10px, 1.6vw, 16px);
+    min-height: clamp(28px, 4.5vh, 40px);
+    min-width: clamp(64px, 10vw, 120px);
+    border-radius: clamp(6px, 1vw, 12px);
+}
+
+/* Category buttons: responsive scale (font-size stronger) */
+.category-tabs__item a {
+    font-size: clamp(13px, 1.8vw, 20px);
+}
+
+/* Bottom nav icons/labels: responsive scale */
+.nav-icon {
+    font-size: clamp(1rem, 2.2vw, 1.6rem);
+}
+.nav-label {
+    font-size: clamp(0.7rem, 1.6vw, 1rem);
+}
+
+/* ========================================
+   Mobile override (placed at end to win cascade)
+   ======================================== */
+@media screen and (max-width: 600px) {
+    .header__search-input {
+        width: clamp(48px, 32vw, 130px) !important;
+    }
+}
+
+/* ========================================
+   Large screen: tighten header more (override)
+   ======================================== */
+@media screen and (min-width: 1024px) {
+    .header__logo {
+        font-size: 1.6rem;
+        line-height: 1;
+    }
+    .header__icon-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.4rem;
+    }
+    .header__search-input {
+        height: 34px;
+    }
+    .fixed-header {
+        min-height: clamp(40px, 5vh, 52px);
+    }
+}
+
+/* ========================================
+   Large screen: tighten header vertical space
+   ======================================== */
+@media screen and (min-width: 1024px) {
+    .fixed-header {
+        min-height: clamp(44px, 5vh, 56px);
+    }
+    .header__inner {
+        min-height: 32px;
+    }
+}
+
+/* ========================================
+   Mobile: shrink search placeholder to fit width
+   ======================================== */
+@media screen and (max-width: 600px) {
+    .header__search-input::placeholder {
+        font-size: clamp(10px, 3.2vw, 12px) !important;
+    }
 }
