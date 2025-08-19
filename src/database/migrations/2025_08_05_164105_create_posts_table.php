@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('category');
-            $table->text('image_path')->nullable(); // JSON配列を想定するなら text
+            $table->json('image_path')->nullable(); // JSON配列
             $table->tinyInteger('rating');
             $table->string('tags')->nullable();
             $table->string('comment', 140)->nullable();

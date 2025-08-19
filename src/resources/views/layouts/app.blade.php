@@ -11,7 +11,7 @@
         <!-- 共通CSS（パーツデザインなど） -->
         <link rel="stylesheet" href="{{ asset('css/common.css') }}" />
 
-        <link rel="stylesheet" href="{{ asset('css/post-form.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/post/post-form.css') }}" />
 
         <!-- 各ページごとのCSS -->
         @yield('css')
@@ -38,13 +38,77 @@
                 </div>
                 <div class="header__cell header__right">
                     <div class="header__actions">
-                        <a
-                            href="{{ route('mypage') }}"
-                            class="header__icon-btn"
-                            aria-label="マイページ"
-                            >👤</a
-                        >
-                        <span class="header__username">ユーザー名</span>
+                        <div class="user-menu-wrapper">
+                            <button
+                                type="button"
+                                class="header__icon-btn header__icon-btn--user"
+                                id="userMenuToggle"
+                                aria-label="ユーザーメニュー"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                👤
+                            </button>
+                            <span
+                                class="header__username header__username--button"
+                                id="userMenuToggleName"
+                                role="button"
+                                tabindex="0"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                @auth
+                                {{ Auth::user()->name }}
+                                @else ゲスト @endauth
+                            </span>
+                            @auth
+                            <div
+                                id="userMenu"
+                                class="user-menu hidden"
+                                role="menu"
+                                aria-labelledby="userMenuToggle"
+                            >
+                                <ul class="user-menu__list">
+                                    <li class="user-menu__item">
+                                        <a
+                                            href="{{ route('mypage') }}"
+                                            class="user-menu__link"
+                                            >マイページ</a
+                                        >
+                                    </li>
+                                    <li class="user-menu__item">
+                                        <a href="#" class="user-menu__link"
+                                            >プロフィール</a
+                                        >
+                                    </li>
+                                    <li class="user-menu__item">
+                                        <a href="#" class="user-menu__link"
+                                            >フォローリスト</a
+                                        >
+                                    </li>
+                                    <li class="user-menu__item">
+                                        <a href="#" class="user-menu__link"
+                                            >フォロワー</a
+                                        >
+                                    </li>
+                                    <li class="user-menu__item">
+                                        <form
+                                            method="POST"
+                                            action="{{ route('logout') }}"
+                                        >
+                                            @csrf
+                                            <button
+                                                type="submit"
+                                                class="user-menu__link user-menu__logout"
+                                            >
+                                                ログアウト
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                            @endauth
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,10 +117,15 @@
         <!-- 🔽 カテゴリタブ -->
         <div class="category-tabs">
             <ul class="category-tabs__list">
-                <li class="category-tabs__item"><a href="#">総合</a></li>
+                <li class="category-tabs__item">
+                    <a href="{{ route('home') }}">総合</a>
+                </li>
                 <li class="category-tabs__item"><a href="#">映画</a></li>
                 <li class="category-tabs__item"><a href="#">動画</a></li>
-                <li class="category-tabs__item"><a href="#">本</a></li>
+                <li class="category-tabs__item"><a href="#">ドラマ</a></li>
+                <li class="category-tabs__item"><a href="#">アニメ</a></li>
+                <li class="category-tabs__item"><a href="#">小説</a></li>
+                <li class="category-tabs__item"><a href="#">コミック</a></li>
                 <li class="category-tabs__item"><a href="#">音楽</a></li>
                 <li class="category-tabs__item"><a href="#">ゲーム</a></li>
             </ul>
@@ -121,6 +190,47 @@
 
         <!-- フッター直前にJS -->
         <script src="{{ asset('js/modal-form.js') }}"></script>
+
+        <script>
+            (function () {
+                const toggleBtn = document.getElementById("userMenuToggle");
+                const toggleName =
+                    document.getElementById("userMenuToggleName");
+                const wrapper = document.querySelector(".user-menu-wrapper");
+                const menu = document.getElementById("userMenu");
+                if (!toggleBtn || !menu || !wrapper) return;
+
+                function closeMenu() {
+                    menu.classList.add("hidden");
+                    toggleBtn.setAttribute("aria-expanded", "false");
+                    if (toggleName)
+                        toggleName.setAttribute("aria-expanded", "false");
+                }
+
+                function openMenu() {
+                    menu.classList.remove("hidden");
+                    toggleBtn.setAttribute("aria-expanded", "true");
+                    if (toggleName)
+                        toggleName.setAttribute("aria-expanded", "true");
+                }
+
+                function onToggleClick(e) {
+                    e.stopPropagation();
+                    const isHidden = menu.classList.contains("hidden");
+                    if (isHidden) openMenu();
+                    else closeMenu();
+                }
+                toggleBtn.addEventListener("click", onToggleClick);
+                if (toggleName)
+                    toggleName.addEventListener("click", onToggleClick);
+
+                document.addEventListener("click", function (e) {
+                    if (!wrapper.contains(e.target)) {
+                        closeMenu();
+                    }
+                });
+            })();
+        </script>
 
         <!-- 各ページで定義されたJSの読み込み -->
         @yield('js')

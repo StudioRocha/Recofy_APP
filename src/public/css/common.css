@@ -4,8 +4,13 @@
 
 .fixed-header {
     background-color: #24beb9; /* 元の色でOK */
-    min-height: clamp(56px, 8vh, 72px); /* 画面高さに応じて上下幅を自動調整 */
+    height: clamp(56px, 8vh, 72px); /* 高さを固定：タブのtopと一致させる */
     padding-top: 0px; /* iPhoneでの縦詰まり回避 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
 .header__inner {
@@ -13,11 +18,12 @@
     display: grid; /* テーブルライクな3分割 */
     grid-template-columns: auto 1fr auto;
     align-items: center;
+    height: 100%; /* 親ヘッダーの固定高にフィット */
     max-width: 960px;
     width: 100%;
     margin: 0 auto; /* 内枠を中央寄せ */
     padding: 0 12px; /* 左右に少し余白 */
-    min-height: 36px; /* iPhoneでの高さ不足を防止 */
+    min-height: 36px; /* 安全マージン（height:100%を優先） */
 }
 
 .header__logo {
@@ -53,7 +59,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
+    width: 35px;
     height: 20px;
     cursor: pointer;
 }
@@ -86,12 +92,55 @@
     gap: clamp(8px, 1.6vw, 16px);
     flex-wrap: nowrap;
 }
+
+/* ユーザードロップダウン */
+.user-menu-wrapper {
+    position: relative;
+}
+.user-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 220px;
+    background: #1f1f1f;
+    color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    padding: 6px 0;
+    z-index: 1100;
+}
+.user-menu__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.user-menu__item + .user-menu__item {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.user-menu__link {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 12px 14px;
+    color: #fff;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+.user-menu__link:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+.user-menu__logout {
+    color: #ffb4b4;
+}
 .header__icon-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 4px;
-    height: 34px;
+    height: 14px;
     border-radius: 9999px;
     text-decoration: none;
     font-size: 1.3rem;
@@ -100,6 +149,9 @@
     display: inline-block;
     min-width: 0.5rem; /* 将来ユーザー名表示のための占有スペース */
     white-space: nowrap; /* 折り返し防止 */
+}
+.header__username--button {
+    cursor: pointer;
 }
 
 .header__record-btn {
@@ -121,7 +173,8 @@
    Category Tabs（ヘッダー下・横スクロール）
    ======================================== */
 .category-tabs {
-    position: static; /* フロート解除 */
+    position: sticky; /* ヘッダー直下で追従 */
+    top: clamp(56px, 8vh, 72px);
     z-index: 999; /* 💡 ヘッダーより下、フォームより上 */
     display: flex;
     /* justify-content: center;  */
@@ -154,8 +207,8 @@
     justify-content: center; /* 💡 中央に並べる */
     gap: clamp(0.6rem, 2vw, 1.6rem); /* 画面幅に応じてボタン間隔を広げる */
     list-style: none;
-    margin: 0.2rem;
-    padding: 7px;
+    margin: 0; /* ヘッダー直下の隙間を解消 */
+    padding: 0 7px 7px; /* 上だけ0にして密着させる */
 }
 .category-tabs__item a {
     display: inline-block;
@@ -313,6 +366,34 @@ body {
     font-size: clamp(1.2rem, 2vw, 1.8rem);
 }
 
+/* 個別調整用（ユーザーアイコン） */
+.header__icon-btn--user {
+    width: clamp(26px, 2.4vw, 36px);
+    height: clamp(26px, 2.4vw, 36px);
+    font-size: clamp(0.95rem, 1.6vw, 1.3rem);
+}
+
+/* 投稿フォーム内のパスワード可視トグル専用 */
+.password-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    outline: none;
+    border-radius: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
 .header__search::before {
     font-size: clamp(1rem, 1.5vw, 1.4rem);
 }
@@ -326,7 +407,7 @@ body {
 }
 
 .header__username {
-    font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+    font-size: clamp(1rem, 1.6vw, 1.4rem);
 }
 
 /* ========================================
@@ -354,7 +435,7 @@ body {
    Category buttons: responsive scale
    ======================================== */
 .category-tabs__list {
-    gap: clamp(6px, 1.5vw, 16px);
+    gap: clamp(10px, 2vw, 20px);
 }
 /* もっと小さく/大きくしたい場合は、各 clamp(最小, 中間, 最大) の最小/最大を調整 */
 .category-tabs__item a {
@@ -362,10 +443,10 @@ body {
     align-items: center;
     justify-content: center;
     font-size: clamp(12px, 1.4vw, 18px);
-    padding-block: clamp(4px, 0.8vh, 8px);
-    padding-inline: clamp(10px, 1.6vw, 16px);
-    min-height: clamp(28px, 4.5vh, 40px);
-    min-width: clamp(64px, 10vw, 120px);
+    padding-block: clamp(4px, 0.9vh, 8px);
+    padding-inline: clamp(8px, 1.2vw, 12px);
+    min-height: clamp(28px, 4vh, 40px);
+    min-width: clamp(56px, 8vw, 96px);
     border-radius: clamp(6px, 1vw, 12px);
 }
 
@@ -376,10 +457,21 @@ body {
 
 /* Bottom nav icons/labels: responsive scale */
 .nav-icon {
-    font-size: clamp(1rem, 2.2vw, 1.6rem);
+    font-size: clamp(0.9rem, 2vw, 1.4rem);
 }
 .nav-label {
     font-size: clamp(0.7rem, 1.6vw, 1rem);
+}
+
+/* ========================================
+   Layout Main Content
+   ======================================== */
+.main-content {
+    max-width: 960px; /* 中央コンテンツの最大幅 */
+    margin: 80px auto 140px; /* 上・下・左右のマージン（下はnav分） */
+
+    padding: 0 16px; /* 左右のみ */
+    box-sizing: border-box;
 }
 
 /* ========================================
@@ -387,7 +479,7 @@ body {
    ======================================== */
 @media screen and (max-width: 600px) {
     .header__search-input {
-        width: clamp(48px, 32vw, 130px) !important;
+        width: clamp(110px, 32vw, 170px) !important;
     }
 }
 

@@ -1,8 +1,101 @@
-
-
 .index-page__title {
-  text-align: center;
-  font-size: 0.8rem;
-     /* 💡 ここ追加：ヘッダー＋タブの高さ分 */
-  color: #ffffff;
+    text-align: left;
+    font-size: 0.8rem;
+    color: #ffffff;
+    margin: 12px 0;
+}
+
+/* 日付ごとのセクション枠 */
+.cards-section {
+    border-top: 1px solid #555;
+    margin-top: 16px;
+    padding-top: 10px;
+}
+.cards-section__date {
+    margin: 0 0 8px 0;
+    font-size: 0.95rem;
+    color: #e5e5e5;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+}
+
+.card {
+    background: #222;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1.618; /* カード全体の比率（幅:高さ） */
+}
+
+.card__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* 親カードの比率にフィット */
+    text-decoration: none;
+    color: inherit;
+}
+
+.card__thumb {
+    flex: 1 1 auto; /* 残りの高さを占有 */
+    min-height: 0;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.card__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.card__placeholder {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.card__header {
+    padding: 8px 10px 6px;
+    min-width: 0; /* 子要素のellipsisが効くように */
+}
+.card__body {
+    display: none;
+}
+.card__title {
+    font-size: 0.65rem;
+    margin: 0 0 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card__meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #ddd;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+.card__meta > * {
+    white-space: nowrap;
+}
+.card__date {
+    margin-left: auto;
+    font-size: 0.78rem;
+    color: #bbb;
+}
+.card__rating {
+    color: #ffd54f;
+}
+
+@media (min-width: 768px) {
+    .cards {
+        gap: 16px;
+    }
+    .card__title {
+        font-size: 0.7rem;
+    }
 }

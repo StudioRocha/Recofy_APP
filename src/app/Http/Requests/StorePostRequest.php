@@ -16,8 +16,9 @@ class StorePostRequest extends FormRequest
         return [
             'title' => 'required|string|max:20', // ←追加
             'category' => 'required|string',
-            'images' => 'nullable|array|max:4',          // 最大4枚まで
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:1024',
+            'images' => 'nullable|array|max:3',          // 最大3枚まで
+            // 画像: JPEG/PNG/WebP のみ、最大2MB
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
 
             'rating' => 'required|integer|min:1|max:5',
             'tags' => 'nullable|string|max:50',          // 任意だが制限追加推奨
@@ -35,9 +36,10 @@ class StorePostRequest extends FormRequest
             'category.string' => 'カテゴリは文字列で入力してください。',
 
             'images.array' => '画像は配列で指定してください。',
-            'images.max' => '画像は最大4枚までアップロードできます。',
+            'images.max' => '画像は最大3枚までアップロードできます。',
             'images.*.image' => '各ファイルは画像ファイルである必要があります。',
-            'images.*.max' => '各画像は1MB以内である必要があります。',
+            'images.*.mimes' => '画像は jpg、jpeg、png、webp のいずれかを指定してください。',
+            'images.*.max' => '各画像は2MB以内である必要があります。',
 
             'rating.required' => '評価は必須です。',
             'rating.integer' => '評価は整数で入力してください。',

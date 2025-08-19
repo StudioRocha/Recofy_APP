@@ -63,18 +63,21 @@
     <div class="post-form__group">
         <label for="category" class="post-form__label">カテゴリ</label>
         <select name="category" id="category" class="post-form__select">
-            <option value="cinema">映画</option>
-            <option value="movie">動画</option>
-            <option value="book">本</option>
-            <option value="music">音楽</option>
-            <option value="game">ゲーム</option>
+            <option value="映画">映画</option>
+            <option value="動画">動画</option>
+            <option value="ドラマ">ドラマ</option>
+            <option value="アニメ">アニメ</option>
+            <option value="小説">小説</option>
+            <option value="コミック">コミック</option>
+            <option value="音楽">音楽</option>
+            <option value="ゲーム">ゲーム</option>
         </select>
     </div>
 
     <!-- アップロード画像選択 -->
     <div class="post-form__group">
         <label for="images" class="post-form__label"
-            >画像アップロード（最大4枚）image|max:2048</label
+            >画像アップロード（最大3枚）image|max:2048</label
         >
         <p class="post-form__hint">
             画像を２枚以上アップするには、Ctrl+複数選択（または複数タップ）
@@ -105,7 +108,7 @@
             name="tags"
             id="tags"
             class="post-form__input"
-            placeholder="例：推理,アクション"
+            placeholder="例：推理,アクション(未入力可)"
             value="{{ old('tags') }}"
         />
     </div>
@@ -121,7 +124,7 @@
             maxlength="140"
             rows="3"
             class="post-form__textarea post-form__textarea--comment"
-            placeholder="感想を入力（未入力でもOK）"
+            placeholder="感想を入力（未入力可）"
             >{{ old("comment") }}</textarea
         >
     </div>
@@ -133,7 +136,7 @@
 @section('js')
 <script>
     document.getElementById("images").addEventListener("change", function (e) {
-        const maxImages = 4;
+        const maxImages = 3;
         const maxSize = 2048;
         const previewContainer = document.getElementById(
             "imagePreviewContainer"
