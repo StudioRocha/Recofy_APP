@@ -34,6 +34,30 @@
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
+/* 戻るボタン（ヒーロー画像左上に重ねる） */
+.post-detail__back {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+}
+.post-detail__back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 9999px;
+    border: none;
+    background: rgba(27, 27, 27, 0.75);
+    color: #ffffff;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.post-detail__back-btn:hover {
+    background: rgba(0, 0, 0, 0.75);
+}
+
 .post-detail__noimage {
     height: min(60vh, 540px);
     display: flex;

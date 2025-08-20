@@ -27,7 +27,7 @@
                 name="title"
                 class="post-form__input"
                 type="text"
-                maxlength="255"
+                maxlength="30"
                 value="{{ old('title', $post->title) }}"
             />
         </div>
@@ -119,6 +119,7 @@
                 name="tags"
                 id="tags"
                 class="post-form__input"
+                maxlength="50"
                 placeholder="例：推理,アクション(未入力可)"
                 value="{{ old('tags', $post->tags) }}"
             />

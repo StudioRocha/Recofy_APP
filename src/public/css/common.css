@@ -223,6 +223,21 @@
     text-align: center;
 }
 
+/* アクティブタブの下線（現在のソート条件を明示） */
+.category-tabs__item a.is-active {
+    position: relative;
+}
+.category-tabs__item a.is-active::after {
+    content: "";
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    bottom: -3px;
+    height: 3px;
+    background: #ff4d4f; /* 赤線 */
+    border-radius: 9999px;
+}
+
 .category-tabs__item a:hover {
     background-color: #318fe7;
     color: #fff;
@@ -472,6 +487,23 @@ body {
 
     padding: 0 16px; /* 左右のみ */
     box-sizing: border-box;
+}
+
+/* ========================================
+   Tablet only fix (768px〜1023px): header/tab overlap
+   ======================================== */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    /* ヘッダーの実高さを固定し、カテゴリタブのtopと一致させて被りを防止 */
+    .fixed-header {
+        height: 64px;
+    }
+    .category-tabs {
+        top: 64px;
+    }
+    /* ヘッダー内のコンテンツだけを上方向に数px詰める */
+    .header__inner {
+        transform: translateY(-22px);
+    }
 }
 
 /* ========================================

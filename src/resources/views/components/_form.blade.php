@@ -50,6 +50,7 @@
             name="title"
             id="title"
             class="post-form__input"
+            maxlength="30"
             value="{{ old('title') }}"
             placeholder="作品名"
             {{--
@@ -108,6 +109,7 @@
             name="tags"
             id="tags"
             class="post-form__input"
+            maxlength="50"
             placeholder="例：推理,アクション(未入力可)"
             value="{{ old('tags') }}"
         />

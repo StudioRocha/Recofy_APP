@@ -14,8 +14,8 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:20', // ←追加
-            'category' => 'required|string',
+            'title' => 'required|string|max:30', // 30文字に拡張
+            'category' => 'required|string|max:50',
             'images' => 'nullable|array|max:3',          // 最大3枚まで
             // 画像: JPEG/PNG/WebP のみ、最大2MB
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -31,9 +31,10 @@ class StorePostRequest extends FormRequest
         return [
 
             'title.required' => 'タイトルは必須です。',
-            'title.max' => 'タイトルは最大20文字までです。',
+            'title.max' => 'タイトルは最大30文字までです。',
             'category.required' => 'カテゴリは必須です。',
             'category.string' => 'カテゴリは文字列で入力してください。',
+            'category.max' => 'カテゴリは最大50文字までです。',
 
             'images.array' => '画像は配列で指定してください。',
             'images.max' => '画像は最大3枚までアップロードできます。',

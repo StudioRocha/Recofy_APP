@@ -3,6 +3,15 @@
 @endsection @section('content')
 <div class="post-detail">
     <div class="post-detail__hero">
+        <div class="post-detail__back">
+            <form onsubmit="handleBack(event)">
+                <button type="submit" class="post-detail__back-btn" aria-label="戻る">
+                    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="currentColor" d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
         @php $paths = is_array($post->image_path) ? $post->image_path :
         (json_decode($post->image_path, true) ?? []); $first = $paths[0] ??
         null; if ($first) { $first = preg_replace('#^(public/|storage/)#', '',
@@ -40,15 +49,20 @@
             >
         </div>
 
-        @if(!empty($post->comment))
+        @if(!empty($post->comment)) @php $isOwner = auth()->check() &&
+        auth()->id() === (int) $post->user; @endphp @if($isOwner)
+        <div id="postComment" class="comment-box">
+            {{ $post->comment }}
+        </div>
+        @else
         <button id="toggleCommentBtn" type="button" class="btn-comment-toggle">
             感想をチェックする
         </button>
         <div id="postComment" class="hidden comment-box">
             {{ $post->comment }}
         </div>
-        @endif @php $rest = array_slice($paths, 1); @endphp @if(is_array($paths)
-        && count($rest) > 0)
+        @endif @endif @php $rest = array_slice($paths, 1); @endphp
+        @if(is_array($paths) && count($rest) > 0)
         <div class="post-detail__thumbs">
             @foreach($rest as $path) @php $p =
             preg_replace('#^(public/|storage/)#', '', $path); @endphp
@@ -84,6 +98,7 @@
         </div>
         @endif @endauth
     </div>
+    </div>
 </div>
 @endsection @section('js')
 <script>
@@ -97,5 +112,16 @@
             btn.textContent = willShow ? "感想を隠す" : "感想をチェックする";
         });
     })();
+
+    function handleBack(e) {
+        e.preventDefault();
+        const fromIndex = document.getElementById('fromIndex');
+        if (fromIndex && fromIndex.value === '1' && window.history.length > 1) {
+            window.history.back();
+            return false;
+        }
+        window.location.href = "{{ route('home') }}";
+        return false;
+    }
 </script>
 @endsection

@@ -118,16 +118,86 @@
         <div class="category-tabs">
             <ul class="category-tabs__list">
                 <li class="category-tabs__item">
-                    <a href="{{ route('home') }}">総合</a>
+                    <a
+                        href="{{ route('home') }}"
+                        class="{{ request()->filled('category') ? '' : 'is-active' }}"
+                        >総合</a
+                    >
                 </li>
-                <li class="category-tabs__item"><a href="#">映画</a></li>
-                <li class="category-tabs__item"><a href="#">動画</a></li>
-                <li class="category-tabs__item"><a href="#">ドラマ</a></li>
-                <li class="category-tabs__item"><a href="#">アニメ</a></li>
-                <li class="category-tabs__item"><a href="#">小説</a></li>
-                <li class="category-tabs__item"><a href="#">コミック</a></li>
-                <li class="category-tabs__item"><a href="#">音楽</a></li>
-                <li class="category-tabs__item"><a href="#">ゲーム</a></li>
+                <li class="category-tabs__item">
+                    <a
+                        href="{{ route('home', ['category' => '映画']) }}"
+                        class="{{
+                            request('category') === '映画' ? 'is-active' : ''
+                        }}"
+                        >映画</a
+                    >
+                </li>
+                <li class="category-tabs__item">
+                    <a
+                        href="{{ route('home', ['category' => '動画']) }}"
+                        class="{{
+                            request('category') === '動画' ? 'is-active' : ''
+                        }}"
+                        >動画</a
+                    >
+                </li>
+                <li class="category-tabs__item">
+                    <a
+                        href="{{ route('home', ['category' => 'ドラマ']) }}"
+                        class="{{
+                            request('category') === 'ドラマ' ? 'is-active' : ''
+                        }}"
+                        >ドラマ</a
+                    >
+                </li>
+                <li class="category-tabs__item">
+                    <a
+                        href="{{ route('home', ['category' => 'アニメ']) }}"
+                        class="{{
+                            request('category') === 'アニメ' ? 'is-active' : ''
+                        }}"
+                        >アニメ</a
+                    >
+                </li>
+                <li class="category-tabs__item">
+                    <a
+                        href="{{ route('home', ['category' => '小説']) }}"
+                        class="{{
+                            request('category') === '小説' ? 'is-active' : ''
+                        }}"
+                        >小説</a
+                    >
+                </li>
+                <li class="category-tabs__item">
+                    <a
+                        href="{{ route('home', ['category' => 'コミック']) }}"
+                        class="{{
+                            request('category') === 'コミック'
+                                ? 'is-active'
+                                : ''
+                        }}"
+                        >コミック</a
+                    >
+                </li>
+                <li class="category-tabs__item">
+                    <a
+                        href="{{ route('home', ['category' => '音楽']) }}"
+                        class="{{
+                            request('category') === '音楽' ? 'is-active' : ''
+                        }}"
+                        >音楽</a
+                    >
+                </li>
+                <li class="category-tabs__item">
+                    <a
+                        href="{{ route('home', ['category' => 'ゲーム']) }}"
+                        class="{{
+                            request('category') === 'ゲーム' ? 'is-active' : ''
+                        }}"
+                        >ゲーム</a
+                    >
+                </li>
             </ul>
         </div>
 

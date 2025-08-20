@@ -5,6 +5,16 @@
     margin: 12px 0;
 }
 
+/* 「もっと見る」リンク（見出しに合わせたサイズで青色） */
+.index-page__more {
+    font-size: 0.8rem; /* 見出しと合わせる */
+    color: #318fe7;
+    text-decoration: none;
+}
+.index-page__more:hover {
+    text-decoration: underline;
+}
+
 /* 日付ごとのセクション枠 */
 .cards-section {
     border-top: 1px solid #555;
@@ -94,6 +104,7 @@
 @media (min-width: 768px) {
     .cards {
         gap: 16px;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     }
     .card__title {
         font-size: 0.7rem;
