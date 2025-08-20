@@ -64,10 +64,44 @@
     align-items: center;
     justify-content: center;
     font-size: 1.6rem; /* ハートアイコンを大きく */
-    color: #fff;
+    color: #bbb; /* 未Like時はグレー */
+    position: relative;
+    overflow: visible;
+}
+.like-btn.is-liked {
+    color: #ff6b81;
 }
 .like-btn:hover {
     background: rgba(0, 0, 0, 0.5);
+}
+
+/* キラキラ演出（詳細） */
+.like-btn.sparkle::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+    z-index: 2;
+    box-shadow: 0 -22px #ffd54f, 15px -15px #ff80ab, 22px 0 #40c4ff,
+        15px 15px #ffd740, 0 22px #69f0ae, -15px 15px #ffab40, -22px 0 #b388ff,
+        -15px -15px #ff5252;
+    animation: like-burst 700ms ease-out forwards;
+}
+
+@keyframes like-burst {
+    60% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.6);
+        opacity: 0;
+    }
 }
 
 /* 戻るボタン（ヒーロー画像左上に重ねる） */
@@ -81,8 +115,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
     height: 36px;
+    padding: 0 10px;
+    gap: 6px;
     border-radius: 9999px;
     border: none;
     background: rgba(27, 27, 27, 0.75);
@@ -92,6 +127,10 @@
 }
 .post-detail__back-btn:hover {
     background: rgba(0, 0, 0, 0.75);
+}
+.post-detail__back-text {
+    font-size: 0.95rem;
+    line-height: 1;
 }
 
 .post-detail__noimage {

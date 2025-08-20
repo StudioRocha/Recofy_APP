@@ -17,17 +17,57 @@
 
 /* いいねボタン（簡易） */
 .like-btn {
-    padding: 4px 8px;
+    padding: 2px 6px;
     border: none;
     border-radius: 8px;
     background: transparent;
     cursor: pointer;
     font-size: 1rem;
+    position: relative;
+    overflow: visible;
+    color: #bbb; /* 未Like時はグレー */
+}
+.like-btn svg {
+    width: 16px;
+    height: 16px;
+}
+.like-btn.is-liked {
+    color: #ff6b81;
 }
 .like-btn--disabled {
     opacity: 0.4;
     cursor: default;
     pointer-events: none;
+}
+
+/* キラキラ演出 */
+.like-btn.sparkle::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+    /* 放射状の粒を box-shadow で表現 */
+    box-shadow: 0 -18px #ffd54f, 12px -12px #ff80ab, 18px 0 #40c4ff,
+        12px 12px #ffd740, 0 18px #69f0ae, -12px 12px #ffab40, -18px 0 #b388ff,
+        -12px -12px #ff5252;
+    z-index: 2;
+    animation: like-burst 600ms ease-out forwards;
+}
+
+@keyframes like-burst {
+    60% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.6);
+        opacity: 0;
+    }
 }
 
 /* 日付ごとのセクション枠 */
@@ -96,26 +136,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.card__meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    color: #ddd;
-    flex-wrap: nowrap;
-    overflow: hidden;
-}
-.card__meta > * {
-    white-space: nowrap;
-}
-.card__date {
-    margin-left: auto;
-    font-size: 0.78rem;
-    color: #bbb;
-}
-.card__rating {
-    color: #ffd54f;
-}
+/* メタ表示を廃止したため関連スタイルを削除 */
 
 /* 画像左下に重ねる いいねUI */
 .card__like {
@@ -129,10 +150,45 @@
     border-radius: 9999px;
     background: rgba(0, 0, 0, 0.5);
     color: #fff;
+    z-index: 3;
+}
+.card__overlay-meta {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 8px; /* カードタイトル直下に見える位置 */
+    z-index: 2;
+}
+.card__overlay-meta .overlay-list {
+    margin: 0;
+    padding: 6px 8px;
+    list-style: none;
+    background: rgba(0, 0, 0, 0.55);
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0; /* 区切りはCSSのスラッシュで入れる */
+}
+.card__overlay-meta .overlay-item {
+    font-size: 0.62rem;
+    color: #eaeaea;
+    display: inline;
+}
+.card__overlay-meta .overlay-item + .overlay-item::before {
+    content: " / ";
+    color: #bdbdbd;
+}
+.card__overlay-meta .overlay-label {
+    color: #bdbdbd;
+}
+.card__overlay-meta .overlay-value {
+    color: #ffffff;
 }
 .card__like .like-count {
     font-size: 0.85rem;
 }
+
+/* .card__hover-info 系も廃止 */
 
 @media (min-width: 768px) {
     .cards {

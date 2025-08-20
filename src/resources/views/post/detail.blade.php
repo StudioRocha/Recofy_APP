@@ -9,6 +9,7 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
                         <path fill="currentColor" d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
                     </svg>
+                    <span class="post-detail__back-text">戻る</span>
                 </button>
             </form>
         </div>
@@ -30,7 +31,11 @@
             {{ $stars }}
         </div>
         <div class="post-detail__like">
-            <button type="button" class="like-btn" data-post-id="{{ $post->id }}" aria-label="いいね">❤️</button>
+            <button type="button" class="like-btn {{ ($post->liked_by_me ?? 0) > 0 ? 'is-liked' : '' }}" data-post-id="{{ $post->id }}" aria-label="いいね">
+                <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41 1.01 4.22 2.53C11.09 5.01 12.76 4 14.5 4 17 4 19 6 19 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </button>
             <span class="like-count" data-post-id="{{ $post->id }}">{{ $post->liked_by_users_count ?? $post->likedByUsers()->count() }}</span>
         </div>
     </div>
@@ -130,6 +135,14 @@
             if (countEl && typeof json.count === 'number') {
                 countEl.textContent = json.count;
             }
+            // sparkle effect（増加時のみ）
+            if (json.liked) {
+                btn.classList.remove('sparkle');
+                void btn.offsetWidth;
+                btn.classList.add('sparkle');
+            }
+            // 色のトグル
+            btn.classList.toggle('is-liked', !!json.liked);
         } catch(err) {
             console.error(err);
         }

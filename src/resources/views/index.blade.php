@@ -34,26 +34,6 @@
                 >
                     <div class="card__header">
                         <h3 class="card__title">{{ $post->title }}</h3>
-                        <div class="card__meta">
-                            <span class="card__rating"
-                                >★ {{ $post->rating ?? '-' }}</span
-                            >
-                            @if(isset($post->author))
-                            <span
-                                class="card__author"
-                                >{{ $post->author->name }}</span
-                            >
-                            @endif @if(!empty($post->category))
-                            <span
-                                class="card__category"
-                                >{{ $post->category }}</span
-                            >
-                            @endif
-                            <span
-                                class="card__date"
-                                >{{ optional($post->created_at)->format('Y/m/d') }}</span
-                            >
-                        </div>
                     </div>
 
                     <div class="card__thumb">
@@ -71,14 +51,52 @@
                         <div class="card__placeholder">No Image</div>
 
                         @endif
+
+                        <div class="card__overlay-meta" aria-label="投稿情報">
+                            <ul class="overlay-list">
+                                @if(isset($post->author))
+                                <li class="overlay-item">
+                                    <span
+                                        class="overlay-value"
+                                        >{{ $post->author->name }}</span
+                                    >
+                                </li>
+                                @endif @if(!empty($post->category))
+                                <li class="overlay-item">
+                                    <span
+                                        class="overlay-value"
+                                        >{{ $post->category }}</span
+                                    >
+                                </li>
+                                @endif @if(!empty($post->tags))
+                                <li class="overlay-item">
+                                    <span
+                                        class="overlay-value"
+                                        >{{ $post->tags }}</span
+                                    >
+                                </li>
+                                @endif
+                            </ul>
+                        </div>
+
                         <div class="card__like">
                             <button
                                 type="button"
-                                class="like-btn"
+                                class="like-btn {{ ($post->liked_by_me ?? 0) > 0 ? 'is-liked' : '' }}"
                                 data-post-id="{{ $post->id }}"
                                 aria-label="いいね"
                             >
-                                ❤️
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        fill="currentColor"
+                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41 1.01 4.22 2.53C11.09 5.01 12.76 4 14.5 4 17 4 19 6 19 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                                    />
+                                </svg>
                             </button>
                             <span
                                 class="like-count"
@@ -108,26 +126,6 @@
                 >
                     <div class="card__header">
                         <h3 class="card__title">{{ $post->title }}</h3>
-                        <div class="card__meta">
-                            <span class="card__rating"
-                                >★ {{ $post->rating ?? '-' }}</span
-                            >
-                            @if(isset($post->author))
-                            <span
-                                class="card__author"
-                                >{{ $post->author->name }}</span
-                            >
-                            @endif @if(!empty($post->category))
-                            <span
-                                class="card__category"
-                                >{{ $post->category }}</span
-                            >
-                            @endif
-                            <span
-                                class="card__date"
-                                >{{ optional($post->created_at)->format('Y/m/d') }}</span
-                            >
-                        </div>
                     </div>
                     <div class="card__thumb">
                         @php $paths = is_array($post->image_path) ?
@@ -142,6 +140,34 @@
                         @else
                         <div class="card__placeholder">No Image</div>
                         @endif
+
+                        <div class="card__overlay-meta" aria-label="投稿情報">
+                            <ul class="overlay-list">
+                                @if(isset($post->author))
+                                <li class="overlay-item">
+                                    <span
+                                        class="overlay-value"
+                                        >{{ $post->author->name }}</span
+                                    >
+                                </li>
+                                @endif @if(!empty($post->category))
+                                <li class="overlay-item">
+                                    <span
+                                        class="overlay-value"
+                                        >{{ $post->category }}</span
+                                    >
+                                </li>
+                                @endif @if(!empty($post->tags))
+                                <li class="overlay-item">
+                                    <span
+                                        class="overlay-value"
+                                        >{{ $post->tags }}</span
+                                    >
+                                </li>
+                                @endif
+                            </ul>
+                        </div>
+
                         <div class="card__like">
                             <button
                                 type="button"
@@ -149,7 +175,17 @@
                                 data-post-id="{{ $post->id }}"
                                 aria-label="いいね"
                             >
-                                ❤️
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        fill="currentColor"
+                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41 1.01 4.22 2.53C11.09 5.01 12.76 4 14.5 4 17 4 19 6 19 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                                    />
+                                </svg>
                             </button>
                             <span
                                 class="like-count"
@@ -197,6 +233,14 @@
                 if (countEl && typeof json.count === "number") {
                     countEl.textContent = json.count;
                 }
+                // sparkle effect (増加時のみ)
+                if (json.liked) {
+                    btn.classList.remove("sparkle");
+                    void btn.offsetWidth; // reflow to restart animation
+                    btn.classList.add("sparkle");
+                }
+                // 色のトグル
+                btn.classList.toggle("is-liked", !!json.liked);
             } catch (err) {
                 console.error(err);
             }

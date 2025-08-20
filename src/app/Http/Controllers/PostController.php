@@ -44,6 +44,19 @@ class PostController extends Controller
     public function show(Post $post)
     {
         $post->load('author');
+        // Like件数と、現在ユーザーがLike済みか（liked_by_me）を付与
+        $userId = auth()->id();
+        $post->loadCount([
+            'likedByUsers',
+            'likedByUsers as liked_by_me' => function ($q) use ($userId) {
+                if ($userId) {
+                    $q->where('users.id', $userId);
+                } else {
+                    // 未ログイン時は0固定
+                    $q->whereRaw('1=0');
+                }
+            },
+        ]);
         return view('post.detail', compact('post'));
     }
 

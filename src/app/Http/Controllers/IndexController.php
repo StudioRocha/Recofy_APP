@@ -18,6 +18,9 @@ class IndexController extends Controller
         // みんなの記録（最新1日分のみ表示）
         $allQuery = Post::with('author:id,name')
             ->withCount('likedByUsers')
+            ->withCount(['likedByUsers as liked_by_me' => function ($q) use ($currentUserId) {
+                $q->where('users.id', $currentUserId);
+            }])
             ->orderBy('created_at', 'desc');
         if (!empty($currentCategory)) {
             $allQuery->where('category', $currentCategory);
@@ -34,6 +37,9 @@ class IndexController extends Controller
         if (!empty($currentUserId)) {
             $myQuery = Post::with('author:id,name')
                 ->withCount('likedByUsers')
+                ->withCount(['likedByUsers as liked_by_me' => function ($q) use ($currentUserId) {
+                    $q->where('users.id', $currentUserId);
+                }])
                 ->where('user', $currentUserId)
                 ->orderBy('created_at', 'desc');
             if (!empty($currentCategory)) {
