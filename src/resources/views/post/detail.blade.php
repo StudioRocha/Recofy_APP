@@ -29,6 +29,10 @@
         <div class="rating-badge" aria-label="評価">
             {{ $stars }}
         </div>
+        <div class="post-detail__like">
+            <button type="button" class="like-btn" data-post-id="{{ $post->id }}" aria-label="いいね">❤️</button>
+            <span class="like-count" data-post-id="{{ $post->id }}">{{ $post->liked_by_users_count ?? $post->likedByUsers()->count() }}</span>
+        </div>
     </div>
 
     <div class="post-detail__body">
@@ -73,7 +77,10 @@
             />
             @endforeach
         </div>
-        @endif @auth @if(auth()->id() === (int) $post->user)
+        @endif
+
+   
+        @auth @if(auth()->id() === (int) $post->user)
         <div style="margin-top: 16px">
             <a
                 href="{{ route('posts.edit', $post->id) }}"
@@ -102,6 +109,32 @@
 </div>
 @endsection @section('js')
 <script>
+    // Like toggle（詳細）
+    document.addEventListener('click', async function(e) {
+        const btn = e.target.closest('.like-btn');
+        if (!btn) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const postId = btn.getAttribute('data-post-id');
+        try {
+            const res = await fetch(`{{ url('/posts') }}/${postId}/like/toggle`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                }
+            });
+            if (!res.ok) return;
+            const json = await res.json();
+            const countEl = document.querySelector(`.like-count[data-post-id="${postId}"]`);
+            if (countEl && typeof json.count === 'number') {
+                countEl.textContent = json.count;
+            }
+        } catch(err) {
+            console.error(err);
+        }
+    });
+
     (function () {
         const btn = document.getElementById("toggleCommentBtn");
         const comment = document.getElementById("postComment");

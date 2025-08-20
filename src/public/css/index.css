@@ -15,6 +15,21 @@
     text-decoration: underline;
 }
 
+/* いいねボタン（簡易） */
+.like-btn {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.like-btn--disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+}
+
 /* 日付ごとのセクション枠 */
 .cards-section {
     border-top: 1px solid #555;
@@ -55,6 +70,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative; /* いいねUIを重ねるため */
 }
 .card__thumb img {
     width: 100%;
@@ -99,6 +115,23 @@
 }
 .card__rating {
     color: #ffd54f;
+}
+
+/* 画像左下に重ねる いいねUI */
+.card__like {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 9999px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
+.card__like .like-count {
+    font-size: 0.85rem;
 }
 
 @media (min-width: 768px) {

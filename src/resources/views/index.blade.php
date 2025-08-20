@@ -71,6 +71,21 @@
                         <div class="card__placeholder">No Image</div>
 
                         @endif
+                        <div class="card__like">
+                            <button
+                                type="button"
+                                class="like-btn"
+                                data-post-id="{{ $post->id }}"
+                                aria-label="いいね"
+                            >
+                                ❤️
+                            </button>
+                            <span
+                                class="like-count"
+                                data-post-id="{{ $post->id }}"
+                                >{{ $post->liked_by_users_count ?? 0 }}</span
+                            >
+                        </div>
                     </div>
                 </a>
             </article>
@@ -127,6 +142,21 @@
                         @else
                         <div class="card__placeholder">No Image</div>
                         @endif
+                        <div class="card__like">
+                            <button
+                                type="button"
+                                class="like-btn"
+                                data-post-id="{{ $post->id }}"
+                                aria-label="いいね"
+                            >
+                                ❤️
+                            </button>
+                            <span
+                                class="like-count"
+                                data-post-id="{{ $post->id }}"
+                                >{{ $post->liked_by_users_count ?? 0 }}</span
+                            >
+                        </div>
                     </div>
                 </a>
             </article>
@@ -140,6 +170,37 @@
 @endsection @section('js')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        // Like toggle (一覧)
+        document.addEventListener("click", async function (e) {
+            const btn = e.target.closest(".like-btn");
+            if (!btn || btn.classList.contains("like-btn--disabled")) return;
+            // いいねボタン押下時はカードリンク遷移を抑止
+            e.preventDefault();
+            e.stopPropagation();
+            const postId = btn.getAttribute("data-post-id");
+            try {
+                const res = await fetch(
+                    `${"{{ url('/posts') }}"}/${postId}/like/toggle`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            Accept: "application/json",
+                        },
+                    }
+                );
+                if (!res.ok) return;
+                const json = await res.json();
+                const countEl = document.querySelector(
+                    `.like-count[data-post-id="${postId}"]`
+                );
+                if (countEl && typeof json.count === "number") {
+                    countEl.textContent = json.count;
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        });
         // 戻ってきたときにスクロール位置を復元
         const saved = sessionStorage.getItem("indexScroll");
         if (saved !== null) {

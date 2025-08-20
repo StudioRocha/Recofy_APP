@@ -17,6 +17,7 @@ class IndexController extends Controller
 
         // みんなの記録（最新1日分のみ表示）
         $allQuery = Post::with('author:id,name')
+            ->withCount('likedByUsers')
             ->orderBy('created_at', 'desc');
         if (!empty($currentCategory)) {
             $allQuery->where('category', $currentCategory);
@@ -32,6 +33,7 @@ class IndexController extends Controller
         $groupedMine = collect();
         if (!empty($currentUserId)) {
             $myQuery = Post::with('author:id,name')
+                ->withCount('likedByUsers')
                 ->where('user', $currentUserId)
                 ->orderBy('created_at', 'desc');
             if (!empty($currentCategory)) {

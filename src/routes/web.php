@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostLikeController;
 use Laravel\Fortify\Fortify;
 
 // ✅ トップページ（ログイン必須）
@@ -22,6 +23,7 @@ Route::middleware('auth')->get('/posts/{post}', [PostController::class, 'show'])
 Route::middleware('auth')->get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
 Route::middleware('auth')->put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
 Route::middleware('auth')->delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+Route::middleware('auth')->post('/posts/{post}/like/toggle', [PostLikeController::class, 'toggle'])->name('posts.like.toggle');
 
 // ✅ 投稿保存（フォームの送信先）
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
